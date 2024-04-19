@@ -1,0 +1,97 @@
+---
+title: "detectron2"
+author: "Hendrik Wagenseil"
+date: "2024-02-08"
+format:
+  # html:
+  #   code-fold: true
+  revealjs:
+    smaller: true
+editor: source
+execute: 
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## Python environment
+
+* **DO NOT USE POETRY!**
+* create virtual env
+* install `torch`, `torchvision` and `opencv`
+* clone the [detectron2 repo](https://github.com/facebookresearch/detectron2)
+* install the detectron2 dependencies
+
+Most of the code below follows this [notebook](https://colab.research.google.com/drive/16jcaJoc6bCFAQ96jDe2HwtXj7BMD_-m5).
+
+```{python}
+#| eval: false
+
+# !python3 -m venv .venv
+# !git clone 'https://github.com/facebookresearch/detectron2'
+
+!source .venv/bin/activate
+!python -m pip install --upgrade pip
+!python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+!python -m pip install opencv-python
+```
+
+```{python}
+#| eval: false
+
+import sys, os, distutils.core
+
+dist = distutils.core.run_setup("./detectron2/setup.py")
+pkg = ' '.join([f"'{x}'" for x in dist.install_requires])
+pkg
+
+!python -m pip install 'Pillow>=7.1' 'matplotlib' 'pycocotools>=2.0.2' 
+!python -m pip install 'termcolor>=1.1' 'yacs>=0.1.8' 'tabulate' 'cloudpickle' 
+!python -m pip install 'tqdm>4.29.0' 'tensorboard' 'fvcore<0.1.6,>=0.1.5' 
+!python -m pip install 'iopath<0.1.10,>=0.1.7' 'omegaconf<2.4,>=2.1' 
+!python -m pip install 'hydra-core>=1.1' 'black' 'packaging'
+
+sys.path.insert(0, os.path.abspath('./detectron2'))
+```
+
+
+## Example
+
+```{python}
+#| eval: false
+
+!source .venv/bin/activate
+
+import torch, detectron2
+import numpy as np
+import os, json, cv2, random
+
+from detectron2 import model_zoo
+from detectron2.engine import DefaultPredictor
+from detectron2.config import get_cfg
+from detectron2.utils.visualizer import Visualizer
+from detectron2.data import MetadataCatalog, DatasetCatalog
+
+TORCH_VERSION = ".".join(torch.__version__.split(".")[:2])
+CUDA_VERSION = torch.__version__.split("+")[-1]
+print("torch: ", TORCH_VERSION, "; cuda: ", CUDA_VERSION)
+print("detectron2:", detectron2.__version__)
+```
+
+```{python}
+#| eval: false
+
+!wget http://images.cocodataset.org/val2017/000000439715.jpg -q -O input.jpg
+im = cv2.imread("./input.jpg")
+
+cv2.imshow('img', mat = im)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+
+
+## Ressources
+
+* [notebook](https://colab.research.google.com/drive/16jcaJoc6bCFAQ96jDe2HwtXj7BMD_-m5)
+* [Installation instructions](https://github.com/facebookresearch/detectron2/blob/main/INSTALL.md)
