@@ -1,4 +1,8 @@
+## Geoneral
 .ipynb_checkpoints/
-.png
-.jpg
-*_data/
+
+## Geocomputation
+geocomputation_data/
+
+## Transfer learning
+transfer_learning_data/
