@@ -2,8 +2,14 @@
 .ipynb_checkpoints/
 
 ## Geocomputation
-geocomputation_data/
+geo*/
 
 ## Dive into deep learning (D2L)
 d2l*/
 
+## Hugging face
+hug*/
+\.env
+
+## FastAI
+fastai*/
